@@ -1,13 +1,13 @@
 <template>
-  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+  <el-form :model="ruleForm" :rules="rules" :ref="ruleForm" label-width="100px" class="demo-ruleForm">
     <el-form-item label="用户名" prop="name">
       <el-input v-model="ruleForm.name"></el-input>
     </el-form-item>
     <el-form-item label="密码" prop="password">
-      <el-input v-model="ruleForm.password"  type="password"></el-input>
+      <el-input v-model="ruleForm.password" type="password"></el-input>
     </el-form-item>
     <el-form-item>
-      <el-button type="primary" @click="submitForm('ruleForm')">登陆</el-button>
+      <el-button type="primary" @click="submitForm(ruleForm)">登陆</el-button>
       <el-button @click="resetForm('ruleForm')">重置</el-button>
     </el-form-item>
   </el-form>
@@ -15,12 +15,14 @@
 </template>
 
 <script>
+
 export default {
   name: 'loginPage',
   data () {
     return {
       ruleForm: {
-        name: ''
+        name: '',
+        password: ''
       },
       rules: {
         name: [
@@ -37,7 +39,6 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
         } else {
           console.log('error submit!!')
           return false
