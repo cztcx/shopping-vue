@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import getters from './getters'
-
+import userModule from './modules/user'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
-  modules: {},
+  modules: {
+    userModule
+  },
   getters,
   state: {
     Authorization: localStorage.getItem('Authorization') ? localStorage.getItem('Authorization') : ''
