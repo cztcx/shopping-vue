@@ -5,8 +5,9 @@ import {resetRouter} from '../../router'
 const getDefaultState = () => {
   return {
     token: getToken(),
-    name: name,
-    avatar: ''
+    name: '',
+    avatar: '',
+    success: false
   }
 }
 
@@ -24,6 +25,9 @@ const mutations = {
   },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
+  },
+  SET_SUCCESS: (state, success) => {
+    state.success = success
   }
 }
 
@@ -31,17 +35,16 @@ const actions = {
   // user login
   login ({commit}, userInfo) {
     const {name, password} = userInfo
-    return new Promise((resolve, reject) => {
-      login({name: name.trim(), password: password}).then(response => {
-        console.log(response.data)
+    login({name: name.trim(), password: password}).then(response => {
+      console.log(response)
+      if (response.data.state) {
         const {data} = response
         commit('SET_TOKEN', data.token)
+        commit('SET_SUCCESS', true)
         setToken(data.token)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      }
     })
+    return state.success
   },
 
   // get user info

@@ -1,30 +1,35 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from '../components/Home'
+import Home from '../views/home/Home'
 import Index from '../components/Index'
 import Login from '../views/login/loginPage'
+import {getToken} from '../utils/auth'
 
 Vue.use(Router)
 
 export const routes = [
   {
     path: '/',
-    redirect: '/login'
+    redirect: '/index'
   },
   {
     path: '/index',
     name: 'Index',
-    component: Index
-  },
-  {
-    path: '/home',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/store',
-    name: 'Store',
-    component: () => import('@/views/store/index')
+    redirect: '/index/home',
+    component: Index,
+    children: [
+      {
+        path: '/index/home',
+        name: 'Home',
+        component: Home
+      },
+      {
+        path: '/index/store',
+        name: 'Store',
+        component: () => import('@/views/store/index')
+      }
+    ]
+
   },
   {
     path: '/login',
@@ -45,5 +50,14 @@ export function resetRouter () {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }
+
+router.beforeEach(function (to, from, next) {
+  if (!getToken()) {
+    if (to.path !== '/login') {
+      return next('/login')
+    }
+  }
+  next()
+})
 
 export default router

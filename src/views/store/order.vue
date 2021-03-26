@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="tableData">
+  <el-table :data="tableData" >
     <el-table-column prop="goodsmess" label="商品信息">
     </el-table-column>
     <el-table-column prop="date" label="日期" width="140">

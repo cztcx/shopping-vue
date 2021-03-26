@@ -22,8 +22,7 @@
 <script>
 import {createNamespacedHelpers} from 'vuex'
 
-const {mapActions} = createNamespacedHelpers('userModule')
-
+const {mapActions, mapState} = createNamespacedHelpers('userModule')
 export default {
   name: 'loginPage',
   data () {
@@ -43,13 +42,30 @@ export default {
       }
     }
   },
+  computed: {
+    ...mapState({
+      username: state => state.name,
+      success: state => state.success
+    })
+  },
   methods: {
     ...mapActions(['login']),
     submitForm (loginForm) {
       this.$refs[loginForm].validate((valid) => {
         if (valid) {
           console.log(loginForm)
-          this.login(loginForm)
+          this.login(loginForm).then(result => {
+            if (result) {
+              if (this.success) {
+                this.$router.push({
+                  path: '/index',
+                  params: {
+                    username: this.username
+                  }
+                })
+              }
+            }
+          })
         } else {
           console.log('error submit!!')
           console.log(loginForm)
@@ -92,12 +108,14 @@ export default {
   display: flex;
   align-items: center;
 }
-.demo-ruleForm{
+
+.demo-ruleForm {
   width: 500px;
   height: 180px;
   text-align: center;
 }
-.item{
+
+.item {
   width: 80%;
 }
 

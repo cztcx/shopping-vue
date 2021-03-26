@@ -1,7 +1,6 @@
 <template>
   <div class="header">
     <el-menu
-      :default-active="activeIndex2"
       class="el-menu-demo"
       mode="horizontal"
       @select="handleSelect"
@@ -9,7 +8,7 @@
       text-color="black"
       active-text-color="#ffd04b">
       <el-menu-item index="1">
-        <el-link href="/home">首页</el-link>
+        首页
       </el-menu-item>
       <el-submenu index="2">
         <template slot="title">分类推荐</template>
@@ -24,7 +23,9 @@
         </el-submenu>
       </el-submenu>
       <el-menu-item index="3" disabled>消息中心</el-menu-item>
-      <el-menu-item index="4"><router-link :to="{name: 'Store'}">我的商铺</router-link></el-menu-item>
+      <el-menu-item index="4">
+        我的商铺
+      </el-menu-item>
     </el-menu>
 
   </div>
@@ -32,20 +33,33 @@
 
 <script>
 export default {
-  name: 'header'
+  name: 'header',
+  data () {
+    return {
+      index: ''
+    }
+  },
+  methods: {
+    handleSelect (key, keyPath) {
+      if (keyPath === '4') {
+        this.index = '4'
+      }
+    }
+  }
 }
 </script>
 
 <style scoped>
-.header{
+.header {
   border: 1px solid red;
   height: 100px;
   background-color: white;
   position: fixed;
-  z-index: 10;
+
   width: 100vw;
 }
-.el-menu-demo{
+
+.el-menu-demo {
   margin-top: 20px;
 }
 </style>
