@@ -1,13 +1,11 @@
 import {login, logout, getInfo} from '../../api/user'
-import {getToken, setToken, removeToken} from '../../utils/auth'
+import {removeToken} from '../../utils/auth'
 import {resetRouter} from '../../router'
 
 const getDefaultState = () => {
   return {
-    token: getToken(),
-    name: '',
-    avatar: '',
-    success: false
+    data: {},
+    token: ''
   }
 }
 
@@ -28,6 +26,9 @@ const mutations = {
   },
   SET_SUCCESS: (state, success) => {
     state.success = success
+  },
+  SET_DATA: (state, data) => {
+    state.data = data
   }
 }
 
@@ -36,15 +37,11 @@ const actions = {
   login ({commit}, userInfo) {
     const {name, password} = userInfo
     login({name: name.trim(), password: password}).then(response => {
-      console.log(response)
-      if (response.data.state) {
-        const {data} = response
-        commit('SET_TOKEN', data.token)
-        commit('SET_SUCCESS', true)
-        setToken(data.token)
+      if (response.data.state === true) {
+        commit('SET_DATA', response.data)
+        commit('SET_TOKEN', response.data.token)
       }
     })
-    return state.success
   },
 
   // get user info

@@ -3,15 +3,15 @@
     <div class="loginFormBack">
       <div class="loginForm">
         <el-form :model="loginForm" :rules="rules" :ref="loginForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="用户名" prop="name" class="item">
-            <el-input v-model="loginForm.name"></el-input>
+          <el-form-item prop="name" class="item">
+            <el-input v-model="loginForm.name" prefix-icon="el-icon-user"></el-input>
           </el-form-item>
-          <el-form-item label="密码" prop="password" class="item">
-            <el-input v-model="loginForm.password" type="password"></el-input>
+          <el-form-item prop="password" class="item">
+            <el-input v-model="loginForm.password" type="password" prefix-icon="el-icon-lock"></el-input>
           </el-form-item>
           <el-form-item class="item">
             <el-button type="primary" @click="submitForm(loginForm)">登陆</el-button>
-            <el-button @click="resetForm('loginForm')">重置</el-button>
+            <el-button @click="resetForm(loginForm)">重置</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -21,6 +21,7 @@
 
 <script>
 import {createNamespacedHelpers} from 'vuex'
+import {setToken} from '../../utils/auth'
 
 const {mapActions, mapState} = createNamespacedHelpers('userModule')
 export default {
@@ -44,33 +45,29 @@ export default {
   },
   computed: {
     ...mapState({
-      username: state => state.name,
-      success: state => state.success
+      username: state => state.data.username,
+      token: state => state.token
     })
   },
   methods: {
     ...mapActions(['login']),
     submitForm (loginForm) {
-      this.$refs[loginForm].validate((valid) => {
+      this.$refs[loginForm].validate(async valid => {
         if (valid) {
-          console.log(loginForm)
-          this.login(loginForm).then(result => {
-            if (result) {
-              if (this.success) {
-                this.$router.push({
-                  path: '/index',
-                  params: {
-                    username: this.username
-                  }
-                })
-              }
-            }
-          })
+          await this.login(loginForm)
+          await console.log(this.username)
+          if (this.token !== null && this.token !== '') {
+            setToken(this.token)
+            this.$router.push({
+              path: '/index'
+            })
+          } else {
+            console.log(this.token)
+          }
         } else {
           console.log('error submit!!')
           console.log(loginForm)
           console.log(valid)
-          return false
         }
       })
     },
@@ -100,19 +97,20 @@ export default {
 }
 
 .loginForm {
-  width: 500px;
-  height: 500px;
+  width: 30%;
+  height: 40%;
   background-color: rgba(255, 255, 255, 0.4);
   margin: auto;
   text-align: center;
   display: flex;
   align-items: center;
+  box-sizing: border-box;
 }
 
 .demo-ruleForm {
-  width: 500px;
-  height: 180px;
+  width: 100%;
   text-align: center;
+  box-sizing: border-box;
 }
 
 .item {
