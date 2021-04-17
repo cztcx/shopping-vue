@@ -1,5 +1,5 @@
-import {login, logout, getInfo} from '../../api/user'
-import {removeToken} from '../../utils/auth'
+import {login, logout, getInfo} from '../../api/userApi'
+import {removeToken, setToken} from '../../utils/auth'
 import {resetRouter} from '../../router'
 
 const getDefaultState = () => {
@@ -40,6 +40,7 @@ const actions = {
       if (response.data.state === true) {
         commit('SET_DATA', response.data)
         commit('SET_TOKEN', response.data.token)
+        setToken(response.data.token)
       }
     })
   },

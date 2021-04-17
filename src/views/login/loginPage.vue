@@ -9,11 +9,19 @@
           <el-form-item prop="password" class="item">
             <el-input v-model="loginForm.password" type="password" prefix-icon="el-icon-lock"></el-input>
           </el-form-item>
+          <router-link to='/Register'>
+            账号注册
+          </router-link>
+
+          <router-link to='/ChangePwd'>
+            修改密码
+          </router-link>
           <el-form-item class="item">
             <el-button type="primary" @click="submitForm(loginForm)">登陆</el-button>
             <el-button @click="resetForm(loginForm)">重置</el-button>
           </el-form-item>
         </el-form>
+
       </div>
     </div>
   </div>
@@ -21,7 +29,6 @@
 
 <script>
 import {createNamespacedHelpers} from 'vuex'
-import {setToken} from '../../utils/auth'
 
 const {mapActions, mapState} = createNamespacedHelpers('userModule')
 export default {
@@ -52,18 +59,15 @@ export default {
   methods: {
     ...mapActions(['login']),
     submitForm (loginForm) {
-      this.$refs[loginForm].validate(async valid => {
+      this.$refs[loginForm].validate(valid => {
         if (valid) {
-          await this.login(loginForm)
-          await console.log(this.username)
-          if (this.token !== null && this.token !== '') {
-            setToken(this.token)
-            this.$router.push({
-              path: '/index'
-            })
-          } else {
-            console.log(this.token)
-          }
+          this.login(loginForm).then(result => {
+            if (this.token) {
+              console.log(this.token)
+
+              this.$router.push('/index')
+            }
+          })
         } else {
           console.log('error submit!!')
           console.log(loginForm)

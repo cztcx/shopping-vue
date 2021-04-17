@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Home from '../views/home/Home'
 import Index from '../components/Index'
 import Login from '../views/login/loginPage'
+import Register from '../views/register/index'
 import {getToken} from '../utils/auth'
 
 Vue.use(Router)
@@ -24,9 +25,9 @@ export const routes = [
         component: Home
       },
       {
-        path: '/index/store',
-        name: 'Store',
-        component: () => import('@/views/store/index')
+        path: '/index/shop',
+        name: 'Shop',
+        component: () => import('@/views/shop/index')
       }
     ]
 
@@ -35,6 +36,11 @@ export const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register
   }
 ]
 const createRouter = () => new Router({

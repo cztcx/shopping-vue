@@ -54,7 +54,7 @@
 <script>
 import Home from '../views/home/Home'
 import Header from './header'
-import Store from '../views/store'
+import Store from '../views/shop'
 import router from '../router'
 
 export default {
@@ -77,7 +77,7 @@ export default {
     handleSelect (key, keyPath) {
       if (key === '7') {
         router.push({
-          path: '/index/store'
+          path: '/index/shop'
         })
         this.showStore = true
         this.showHome = false
@@ -117,6 +117,7 @@ export default {
   background-color: white;
   position: fixed;
   width: 100vw;
+  z-index: 100;
 }
 
 .el-menu-demo {

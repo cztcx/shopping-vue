@@ -50,7 +50,7 @@
 import Order from './order'
 
 export default {
-  name: 'Store',
+  name: 'Shop',
   components: {Order},
   data () {
     return {
