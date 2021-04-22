@@ -25,7 +25,7 @@
       align="right">
     </el-date-picker>
     <el-button type="primary" @click="getOrder">检索</el-button>
-    <el-table :data="tableData">
+    <el-table :data="this.tableData">
       <el-table-column prop="index" label="编号">
       </el-table-column>
       <el-table-column prop="goodsName" label="商品名称">
@@ -38,18 +38,25 @@
       </el-table-column>
       <el-table-column prop="count" label="数量">
       </el-table-column>
-      <el-table-column prop="handle" label="操作">
+      <el-table-column prop="id" label="操作">
+        <template slot-scope="scope">
+          <el-button type="danger" size="small" @click="Delete(scope.row.id)" plain>删除</el-button>
+        </template>
       </el-table-column>
     </el-table>
   </div>
 </template>
 <script>
 export default {
+  name: 'OrderHistory',
   data () {
     const item = {
       date: '2016-05-02',
+      goodsName: '鸡翅',
       name: '王小虎',
-      address: '鞍山市辽宁科技大学'
+      address: '鞍山市辽宁科技大学',
+      count: '100',
+      id: '123'
     }
     return {
       userName: '',
@@ -89,6 +96,23 @@ export default {
   methods: {
     getOrder: () => {
       this.orderData = []
+    },
+    Delete (id) {
+      this.$confirm('此操作会删除此历史记录, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '已删除!'
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '操作取消'
+        })
+      })
     }
   }
 }

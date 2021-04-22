@@ -1,72 +1,93 @@
 <template>
   <el-container style="height: 80vh; border: 1px solid #eee; margin-top: 100px">
     <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-      <el-menu :default-openeds="['1', '3']">
-        <el-menu-item index="1" @click="_showorder">
+      <el-menu :default-openeds="['1', '3']" @select="handleSelect">
+        <el-menu-item index="1">
           <i class="el-icon-message"></i>
-          <span slot="title">订单管理</span>
+          订单管理
+        </el-menu-item>
+        <el-menu-item index="4">
+          <i class="el-icon-message"></i>
+          已发货物
         </el-menu-item>
         <el-submenu index="2">
           <template slot="title"><i class="el-icon-menu"></i>商品管理</template>
           <el-menu-item-group>
-            <template slot="title">分组一</template>
-            <el-menu-item index="2-1" @click="_showgoods">选项1</el-menu-item>
-            <el-menu-item index="2-2">选项2</el-menu-item>
+            <el-menu-item index="2-1">
+              <i class="iconfont icon-duohangchenlie"></i>
+              &nbsp;&nbsp;店内商品
+            </el-menu-item>
+            <el-menu-item index="2-2"><i class="iconfont icon-tianjia"></i>&nbsp;&nbsp;新品添加</el-menu-item>
+            <el-menu-item index="2-3"><i class="iconfont icon-tubiao-xiajia"></i>&nbsp;&nbsp;下架商品</el-menu-item>
           </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="2-3">选项3</el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="2-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="2-4-1">选项4-1</el-menu-item>
-          </el-submenu>
         </el-submenu>
-        <el-submenu index="3">
-          <template slot="title"><i class="el-icon-setting"></i>商铺设置</template>
-          <el-menu-item-group>
-            <template slot="title">分组一</template>
-            <el-menu-item index="3-1">选项1</el-menu-item>
-            <el-menu-item index="3-2">选项2</el-menu-item>
-          </el-menu-item-group>
-          <el-menu-item-group title="分组2">
-            <el-menu-item index="3-3">选项3</el-menu-item>
-          </el-menu-item-group>
-          <el-submenu index="3-4">
-            <template slot="title">选项4</template>
-            <el-menu-item index="3-4-1">选项4-1</el-menu-item>
-          </el-submenu>
-        </el-submenu>
+        <el-menu-item index="5">
+          <i class="el-icon-document"></i>
+          历史订单
+        </el-menu-item>
+        <el-menu-item index="3">
+          <i class="el-icon-setting"></i>
+          商铺设置
+        </el-menu-item>
       </el-menu>
     </el-aside>
     <el-container>
       <el-main>
-        <order v-if="ordershow"></order>
+         <router-view></router-view>
       </el-main>
     </el-container>
   </el-container>
 </template>
 
 <script>
-import Order from './order'
+import Order from './shopOrder'
+import router from '../../router'
 
 export default {
   name: 'Shop',
   components: {Order},
   data () {
     return {
-      ordershow: false,
-      goodsshow: false
 
     }
   },
   methods: {
-    _showorder () {
-      this.ordershow = true
-      this.goodsshow = false
-    },
-    _showgoods () {
-      this.ordershow = false
-      this.goodsshow = true
+    handleSelect (key, keyPath) {
+      if (key === '1') {
+        router.push({
+          path: '/index/shop/shopOrder'
+        })
+      }
+      if (key === '3') {
+        router.push({
+          path: '/index/shop/setUp'
+        })
+      }
+      if (key === '4') {
+        router.push({
+          path: '/index/shop/hasSendOut'
+        })
+      }
+      if (key === '2-1') {
+        router.push({
+          path: '/index/shop/shopGoods'
+        })
+      }
+      if (key === '2-2') {
+        router.push({
+          path: '/index/shop/addGood'
+        })
+      }
+      if (key === '2-3') {
+        router.push({
+          path: '/index/shop/offShelfGoods'
+        })
+      }
+      if (key === '5') {
+        router.push({
+          path: '/index/shop/orderHistory'
+        })
+      }
     }
   }
 }

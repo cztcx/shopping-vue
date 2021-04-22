@@ -56,7 +56,6 @@ import Home from '../views/home/Home'
 import Header from './header'
 import Store from '../views/shop'
 import router from '../router'
-
 export default {
   name: 'Index',
   components: {Header, Home, Store},
@@ -85,6 +84,17 @@ export default {
       if (key === '1') {
         router.push({
           path: '/index/home'
+        })
+      }
+      if (key === '2') {
+        router.push({
+          path: '/index/goodsList',
+          query: {categoryId: 1}
+        })
+      }
+      if (key === '9') {
+        router.push({
+          path: '/index/personal'
         })
       }
     }

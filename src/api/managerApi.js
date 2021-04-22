@@ -1,8 +1,8 @@
 import request from '@/utils/request'
 
-export function userLogin (data) {
+export function managerLogin (data) {
   return request({
-    url: '/v1/userLogin',
+    url: '/v1/managerLogin',
     method: 'post',
     data
   })

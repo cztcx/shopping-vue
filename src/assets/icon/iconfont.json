@@ -1,0 +1,121 @@
+{
+  "id": "2494791",
+  "name": "icon",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "14463315",
+      "name": "修改",
+      "font_class": "xiugai",
+      "unicode": "e765",
+      "unicode_decimal": 59237
+    },
+    {
+      "icon_id": "1312011",
+      "name": "转换",
+      "font_class": "zhuanhuan",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "1440916",
+      "name": "下架",
+      "font_class": "xiajia",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "1638601",
+      "name": "单行陈列",
+      "font_class": "danhangchenlie",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "1638602",
+      "name": "多行陈列",
+      "font_class": "duohangchenlie",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "2019063",
+      "name": "添加",
+      "font_class": "tianjia",
+      "unicode": "e7a9",
+      "unicode_decimal": 59305
+    },
+    {
+      "icon_id": "3216089",
+      "name": "添加",
+      "font_class": "icon--",
+      "unicode": "e71b",
+      "unicode_decimal": 59163
+    },
+    {
+      "icon_id": "4464997",
+      "name": "订单",
+      "font_class": "dingdan",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "5643535",
+      "name": "下架",
+      "font_class": "xiajia1",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "6260321",
+      "name": "已下架",
+      "font_class": "yixiajia",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "6714379",
+      "name": "图标-下架",
+      "font_class": "tubiao-xiajia",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "7550210",
+      "name": "添加",
+      "font_class": "tianjia1",
+      "unicode": "e68a",
+      "unicode_decimal": 59018
+    },
+    {
+      "icon_id": "12770916",
+      "name": "下架",
+      "font_class": "xiajia2",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "15779736",
+      "name": "添加",
+      "font_class": "tianjia2",
+      "unicode": "e709",
+      "unicode_decimal": 59145
+    },
+    {
+      "icon_id": "16534098",
+      "name": "修改信息",
+      "font_class": "xiugaixinxi",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "20114355",
+      "name": "人",
+      "font_class": "ren",
+      "unicode": "e6fe",
+      "unicode_decimal": 59134
+    }
+  ]
+}

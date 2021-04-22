@@ -1,4 +1,4 @@
-import {userLogin, logout, getInfo} from '../../api/userApi'
+import {managerLogin, logout, getInfo} from '../../api/managerApi'
 import {getNickName, getToken, removeToken, setNickName, setToken} from '../../utils/auth'
 import {resetRouter} from '../../router'
 
@@ -39,7 +39,7 @@ const actions = {
   login ({commit}, userInfo) {
     const {name, password} = userInfo
     return new Promise((resolve, reject) => {
-      userLogin({name: name.trim(), password: password}).then(response => {
+      managerLogin({name: name.trim(), password: password}).then(response => {
         const {data} = response
         console.log(response)
         if (data.state) {

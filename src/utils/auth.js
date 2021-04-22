@@ -13,3 +13,16 @@ export function setToken (token) {
 export function removeToken () {
   return Cookies.remove(TokenKey)
 }
+const NickName = 'NikeName'
+
+export function getNickName () {
+  return Cookies.get(NickName)
+}
+
+export function setNickName (nickName) {
+  return Cookies.set(NickName, nickName)
+}
+
+export function removeNickName () {
+  return Cookies.remove(NickName)
+}
