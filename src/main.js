@@ -7,8 +7,10 @@ import store from './store'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import '@/assets/icon/iconfont.css'
+import VueResource from 'vue-resource'
 
 Vue.use(ElementUI)
+Vue.use(VueResource)
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

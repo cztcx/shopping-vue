@@ -1,5 +1,5 @@
 import {managerLogin, logout, getInfo} from '../../api/managerApi'
-import {getNickName, getToken, removeToken, setNickName, setToken} from '../../utils/auth'
+import {setUserName, getToken, clearToken, setToken, getUserName} from '../../utils/session'
 import {resetRouter} from '../../router'
 
 const getDefaultState = () => {
@@ -7,7 +7,7 @@ const getDefaultState = () => {
     data: {},
     success: false,
     token: getToken(),
-    nickName: getNickName()
+    nickName: getUserName()
   }
 }
 
@@ -47,7 +47,7 @@ const actions = {
           commit('SET_DATA', response.data)
           commit('SET_SUCCESS', true)
           setToken(data.token)
-          setNickName(data.nickname.toString())
+          setUserName(data.nickname.toString())
         }
         resolve()
       }).catch(error => {
@@ -81,7 +81,7 @@ const actions = {
   logout ({commit, state}) {
     return new Promise((resolve, reject) => {
       logout(state.token).then(() => {
-        removeToken() // must remove  token  first
+        clearToken() // must remove  token  first
         resetRouter()
         commit('RESET_STATE')
         resolve()
@@ -94,7 +94,7 @@ const actions = {
   // remove token
   resetToken ({commit}) {
     return new Promise(resolve => {
-      removeToken() // must remove  token  first
+      clearToken() // must remove  token  first
       commit('RESET_STATE')
       resolve()
     })

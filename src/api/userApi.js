@@ -22,3 +22,18 @@ export function logout () {
     method: 'post'
   })
 }
+
+export function UserUpdate (data) {
+  return request({
+    url: `/v1/users/update`,
+    method: 'put',
+    data: data
+  })
+}
+
+export function retrieve (userId) {
+  return request({
+    url: `/v1/users/${userId}`,
+    method: 'get'
+  })
+}

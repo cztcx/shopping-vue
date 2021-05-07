@@ -33,11 +33,27 @@ import router from '../../router'
 
 export default {
   name: 'Personal',
+  data () {
+    return {
+      id: this.$store.getters.id
+    }
+  },
   methods: {
     handleSelect (key, keyPath) {
       if (key === '1') {
         router.push({
-          path: '/index/personal/order'
+          path: '/index/personal/order',
+          params: {id: this.id}
+        })
+      }
+      if (key === '2') {
+        router.push({
+          path: '/index/personal/update'
+        })
+      }
+      if (key === '3') {
+        router.push({
+          path: '/index/personal/address'
         })
       }
     }

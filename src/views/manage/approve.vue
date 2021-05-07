@@ -25,7 +25,17 @@
       align="right">
     </el-date-picker>
     <el-button type="primary">搜索</el-button>
-    <el-table :data="this.Data">
+    <el-pagination
+      background
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="currentPage"
+      :page-sizes="[5, 8, 10, 20, 40]"
+      :page-size="pagesize"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="Data.length">
+    </el-pagination>
+    <el-table :data="this.Data.slice((currentPage-1)*pagesize,currentPage*pagesize)">
       <el-table-column prop="index" label="编号">
       </el-table-column>
       <el-table-column prop="shopName" label="商铺名称">
@@ -41,6 +51,7 @@
         <el-button type="danger" size="small" @click="nopass" plain>不通过</el-button>
       </el-table-column>
     </el-table>
+
   </div>
 </template>
 
@@ -57,6 +68,8 @@ export default {
       id: '1'
     }
     return {
+      currentPage: 1,
+      pagesize: 8,
       Data: Array(20).fill(item)
     }
   },
@@ -94,6 +107,14 @@ export default {
           message: '操作取消'
         })
       })
+    },
+    handleSizeChange: function (size) {
+      this.pagesize = size
+      console.log(this.pagesize)
+    },
+    handleCurrentChange: function (currentPage) {
+      this.currentPage = currentPage
+      console.log(this.currentPage)
     }
   }
 }

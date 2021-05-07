@@ -1,7 +1,6 @@
 <template>
   <el-container>
     <div class="header">
-      <div class="logo"></div>
       <el-menu
         class="el-menu-demo"
         mode="horizontal"
@@ -10,9 +9,15 @@
         text-color="black"
         active-text-color="#ffd04b"
       >
+        <div class="logo">
+          欢迎：<span class="userName">{{ userName }}</span>&nbsp;
+          <el-link @click="logout">
+            <li class="el-icon-switch-button" style="color: #0fc1ee">退出登录</li>
+          </el-link>
+        </div>
         <div class="menu">
           <el-menu-item index="1" class="item">
-            <span class="menu-span">首页{{this.username}}</span>
+            <span class="menu-span">首页{{ this.username }}</span>
           </el-menu-item>
           <el-menu-item index="2" class="item">
             <span class="menu-span">熟食</span>
@@ -31,15 +36,15 @@
           </el-menu-item>
         </div>
         <div class="search">
-          <el-input v-model="input" placeholder="请输入内容"></el-input>
-          <el-button type="primary" icon="el-icon-search">找它</el-button>
+          <el-input v-model="input" placeholder="请输入内容" size="small"></el-input>
+          <el-button type="danger" icon="el-icon-search" size="small">找它</el-button>
         </div>
         <div class="personal">
           <el-menu-item index="7" class="personal-item">
             <span class="menu-span"><i class="el-icon-s-home"></i>我的商铺</span>
           </el-menu-item>
           <el-menu-item index="8" class="personal-item">
-            <span class="menu-span" ><i class="el-icon-shopping-cart-2"></i>购物车</span>
+            <span class="menu-span"><i class="el-icon-shopping-cart-2"></i>购物车</span>
           </el-menu-item>
           <el-menu-item index="9" class="personal-item">
             <span class="menu-span"><i class="el-icon-user"></i>个人中心</span>
@@ -47,20 +52,23 @@
         </div>
       </el-menu>
     </div>
-    <router-view/>
+    <router-view />
   </el-container>
 </template>
 
 <script>
-import Home from '../views/home/Home'
-import Header from './header'
 import Store from '../views/shop'
+import {getUserName} from '../utils/session'
 import router from '../router'
+import {createNamespacedHelpers} from 'vuex'
+
+const {mapActions} = createNamespacedHelpers('userModule')
 export default {
   name: 'Index',
-  components: {Header, Home, Store},
+  components: {Store},
   data () {
     return {
+      id: this.$store.getters.id,
       activeIndex: '1',
       activeIndex2: '1',
       input: '',
@@ -69,7 +77,11 @@ export default {
       username: this.$route.params.username
     }
   },
+  computed: {
+    userName: getUserName
+  },
   methods: {
+    ...mapActions(['retrieve']),
     console () {
       console.log(this.data.index)
     },
@@ -88,15 +100,53 @@ export default {
       }
       if (key === '2') {
         router.push({
-          path: '/index/goodsList',
+          path: '/index/replace',
           query: {categoryId: 1}
         })
       }
-      if (key === '9') {
+      if (key === '3') {
         router.push({
-          path: '/index/personal'
+          path: '/index/replace',
+          query: {categoryId: 2}
         })
       }
+      if (key === '4') {
+        router.push({
+          path: '/index/replace',
+          query: {categoryId: 3}
+        })
+      }
+      if (key === '5') {
+        router.push({
+          path: '/index/replace',
+          query: {categoryId: 4}
+        })
+      }
+      if (key === '6') {
+        router.push({
+          path: '/index/replace',
+          query: {categoryId: 5}
+        })
+      }
+      if (key === '8') {
+        this.retrieve(this.$store.getters.id)
+        router.replace({
+          path: '/index/cart',
+          params: {id: this.id}
+        })
+      }
+      if (key === '9') {
+        this.retrieve(this.$store.getters.id)
+        router.push({
+          path: '/index/personal',
+          params: {id: this.id}
+        })
+      }
+    },
+    logout () {
+      router.push({
+        path: '/'
+      })
     }
   }
 }
@@ -161,6 +211,13 @@ export default {
   float: left;
   width: 12.5%;
   height: 100px;
+  border: 1px solid #FFD04B;
+  display: flex;
+  align-items: center;
+}
+
+.userName {
+  color: #FFD04B;
 }
 
 .menu {

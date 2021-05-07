@@ -4,7 +4,7 @@ import Home from '../views/home/Home'
 import Index from '../components/Index'
 import Login from '../views/login/loginPage'
 import Register from '../views/register/index'
-import {getToken, removeToken} from '../utils/auth'
+import {getToken, clearToken} from '../utils/session'
 import ShopOrder from '../views/shop/shopOrder'
 import SetUp from '../views/shop/setUp'
 import Personal from '../views/personal/index'
@@ -21,6 +21,10 @@ import AddGood from '../views/shop/addGood'
 import OffShelfGoods from '../views/shop/offShelfGoods'
 import HasSendOut from '../views/shop/hasSendOut'
 import OrderHistory from '../views/shop/orderHistory'
+import Update from '../views/personal/update'
+import Cart from '../views/cart/index'
+import Replace from '../views/goodsList/replace'
+import Address from '../views/personal/address'
 
 Vue.use(Router)
 
@@ -118,18 +122,39 @@ export const routes = [
             path: '/index/personal/order',
             name: 'Order',
             component: Order
+          },
+          {
+            path: '/index/personal/update',
+            name: 'Update',
+            component: Update
+          },
+          {
+            path: '/index/personal/address',
+            name: 'Address',
+            component: Address
           }
         ]
       },
       {
         path: '/index/goodsList',
         name: 'GoodsList',
+        reload: true,
         component: GoodsList
       },
       {
         path: '/index/details',
         name: 'Details',
         component: Details
+      },
+      {
+        path: '/index/cart',
+        name: 'Cart',
+        component: Cart
+      },
+      {
+        path: '/index/replace',
+        name: 'Replace',
+        component: Replace
       }
     ]
 
@@ -166,7 +191,7 @@ router.beforeEach(function (to, from, next) {
     }
   } else {
     if (to.path === '/login') {
-      removeToken()
+      clearToken()
     }
   }
   next()

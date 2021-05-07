@@ -7,3 +7,16 @@ export function getOrderList (data, shopId) {
     data
   })
 }
+export function add (data) {
+  return request({
+    url: `/v1/user/payFinish`,
+    method: 'post',
+    data
+  })
+}
+export function getUserOrders (userId) {
+  return request({
+    url: `/v1/user/getOrders/${userId}`,
+    method: 'get'
+  })
+}

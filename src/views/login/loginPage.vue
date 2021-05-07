@@ -55,9 +55,9 @@
 
 <script>
 import {createNamespacedHelpers} from 'vuex'
-import {getToken} from '../../utils/auth'
+import {getToken} from '../../utils/session'
 
-const {mapActions, mapState} = createNamespacedHelpers('userModule')
+const {mapState} = createNamespacedHelpers('userModule')
 export default {
   name: 'loginPage',
   data () {
@@ -89,7 +89,6 @@ export default {
     })
   },
   methods: {
-    ...mapActions(['login']),
     submitForm1 (loginForm) {
       this.$refs[loginForm].validate(valid => {
         if (valid) {
@@ -206,9 +205,8 @@ export default {
 
 .user-button {
   border-radius: 0;
-  height: 100%;
   background-color: rgba(55, 189, 128, 1);
-  border: 0px;
+  border: 1px solid rgba(55, 189, 128, 1);
 }
 .manager-button {
   margin-left: 0px;
@@ -218,7 +216,7 @@ export default {
   border-bottom-right-radius: 0px;
   height: 100%;
   background-color: rgba(55, 189, 189, 1);
-  border: 0px;
+  border: 1px solid rgba(55, 189, 189, 1);
 }
 
 </style>
