@@ -1,10 +1,10 @@
-import {add, getUserOrders, receiveOrder} from '../../api/orderApi'
+import {add, getUserHistoryOrders, deleteHistoryOrder} from '../../api/orderHistoryApi'
 
 const state = () => {
   return {
     data: {},
-    userOrders: {},
-    shopOrders: {}
+    userHistoryOrders: {},
+    shopHistoryOrders: {}
   }
 }
 
@@ -12,8 +12,8 @@ const mutations = {
   SET_DATA: (state, data) => {
     state.data = data
   },
-  SET_USERORDERS: (state, userOrders) => {
-    state.userOrders = userOrders
+  SET_USERORDERS: (state, userHistoryOrders) => {
+    state.userHistoryOrders = userHistoryOrders
   }
 }
 
@@ -31,10 +31,10 @@ const actions = {
       })
     })
   },
-  getUserOrders ({commit}, userId) {
+  getUserHistoryOrders ({commit}, userId) {
     return new Promise((resolve, reject) => {
       console.log(userId)
-      getUserOrders(userId).then(response => {
+      getUserHistoryOrders(userId).then(response => {
         const {data} = response
         console.log(data)
         commit('SET_USERORDERS', data)
@@ -44,10 +44,10 @@ const actions = {
       })
     })
   },
-  receiveOrder ({commit}, orderId) {
+  deleteHistoryOrder ({commit}, orderHistoryId) {
     return new Promise((resolve, reject) => {
-      console.log(orderId)
-      receiveOrder(orderId).then(response => {
+      console.log(orderHistoryId)
+      deleteHistoryOrder(orderHistoryId).then(response => {
         const {data} = response
         console.log(data)
         resolve(data)

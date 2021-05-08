@@ -25,6 +25,7 @@ import Update from '../views/personal/update'
 import Cart from '../views/cart/index'
 import Replace from '../views/goodsList/replace'
 import Address from '../views/personal/address'
+import UOrderHistory from '../views/personal/orderHistory'
 
 Vue.use(Router)
 
@@ -132,6 +133,11 @@ export const routes = [
             path: '/index/personal/address',
             name: 'Address',
             component: Address
+          },
+          {
+            path: '/index/personal/orderHistory',
+            name: 'UOrderHistory',
+            component: UOrderHistory
           }
         ]
       },

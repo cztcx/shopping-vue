@@ -25,7 +25,7 @@
       align="right">
     </el-date-picker>
     <el-button type="primary" @click="getOrder">检索</el-button>
-    <el-table :data="this.tableData">
+    <el-table :data="this.goods">
       <el-table-column prop="index" label="编号">
       </el-table-column>
       <el-table-column prop="goodsName" label="商品名称">
@@ -47,22 +47,15 @@
   </div>
 </template>
 <script>
+import {createNamespacedHelpers} from 'vuex'
+const {mapState, mapActions} = createNamespacedHelpers('shopModule')
 export default {
   name: 'ShopOrder',
   data () {
-    const item = {
-      date: '2016-05-02',
-      goodsName: '鸡翅',
-      name: '王小虎',
-      address: '鞍山市辽宁科技大学',
-      count: '100',
-      id: '123'
-    }
     return {
       userName: '',
       goodsName: '',
       orderData: [],
-      tableData: Array(20).fill(item),
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -93,7 +86,13 @@ export default {
       value1: ''
     }
   },
+  computed: {
+    ...mapState({
+      goods: state => state.goods
+    })
+  },
   methods: {
+    ...mapActions(['getGoodsByShopID']),
     getOrder: () => {
       this.orderData = []
     },

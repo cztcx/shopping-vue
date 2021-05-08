@@ -5,8 +5,7 @@
       </el-table-column>
       <el-table-column>
         <template slot-scope="scope">
-          <el-image :src="scope.row.url" fit="cover" style="width: 100px;height: 100px"
-                    @click="toDetails(scope.row.goodsId)"></el-image>
+          <el-image :src="scope.row.url" fit="cover" style="width: 100px;height: 100px" @click="toDetails(scope.row.goodsId)"></el-image>
         </template>
       </el-table-column>
       <el-table-column prop="goodsname" label="商品名称">
@@ -25,7 +24,7 @@
       </el-table-column>
       <el-table-column prop="id" label="操作">
         <template slot-scope="scope">
-          <el-button type="primary" size="small" @click="receive(scope.row)" plain>确认收货</el-button>
+          <el-button type="primary" size="small" @click="deleteHistory(scope.row)" plain>删除记录</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -35,23 +34,14 @@
 import {createNamespacedHelpers} from 'vuex'
 import {getId} from '../../utils/session'
 
-const {mapActions, mapState} = createNamespacedHelpers('orderModule')
+const {mapActions, mapState} = createNamespacedHelpers('orderHistoryModule')
 export default {
-  name: 'Order',
+  name: 'UOrderHistory',
   data () {
-    const item = {
-      date: '2016-05-02',
-      goodsName: '鸡翅',
-      name: '王小虎',
-      address: '鞍山市辽宁科技大学',
-      count: '100',
-      id: '123'
-    }
     return {
       userName: '',
       goodsName: '',
       orderData: [],
-      tableData: Array(20).fill(item),
       pickerOptions: {
         shortcuts: [{
           text: '最近一周',
@@ -84,16 +74,16 @@ export default {
   },
   computed: {
     ...mapState({
-      orders: state => state.userOrders
+      orders: state => state.userHistoryOrders
     })
   },
   created () {
-    this.getOrders()
+    this.getHistoryOrders()
   },
   methods: {
-    ...mapActions(['getUserOrders', 'receiveOrder']),
-    getOrders () {
-      this.getUserOrders(getId())
+    ...mapActions(['getUserHistoryOrders', 'deleteHistoryOrder']),
+    getHistoryOrders () {
+      this.getUserHistoryOrders(getId())
     },
     indexMethod (index) {
       return index + 1
@@ -101,21 +91,21 @@ export default {
     getOrder: () => {
       this.orderData = []
     },
-    receive (row) {
-      this.$confirm('温馨提示：确认拿到货物再收货哦, 是否继续?', '提示', {
-        confirmButtonText: '已经确认',
+    deleteHistory (row) {
+      this.$confirm('确认删除将无法恢复, 是否继续?', '温馨提示', {
+        confirmButtonText: '确认删除',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         console.log(row.id)
-        this.receiveOrder(row.id).then(() => {
+        this.deleteHistoryOrder(row.id).then(() => {
           this.$message({
             type: 'success',
-            message: '已收货!'
+            message: '已删除!'
           })
           location.reload()
         }).catch(() => {
-          this.$message.error('内部错误！请重试')
+          this.$message.error('内部错误，删除失败')
         })
       }).catch(() => {
         this.$message({

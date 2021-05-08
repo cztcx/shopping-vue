@@ -14,6 +14,10 @@
           <i class="iconfont icon-ren"></i>
           收货人管理
         </el-menu-item>
+        <el-menu-item index="5">
+          <i class="el-icon-document"></i>
+          历史订单
+        </el-menu-item>
         <el-menu-item index="4">
           <i class="iconfont icon-zhuanhuan"></i>
           成为店家
@@ -30,12 +34,13 @@
 
 <script>
 import router from '../../router'
+import {getId} from '../../utils/session'
 
 export default {
   name: 'Personal',
   data () {
     return {
-      id: this.$store.getters.id
+      id: getId()
     }
   },
   methods: {
@@ -54,6 +59,12 @@ export default {
       if (key === '3') {
         router.push({
           path: '/index/personal/address'
+        })
+      }
+      if (key === '5') {
+        router.push({
+          path: '/index/personal/orderHistory',
+          params: {id: this.id}
         })
       }
     }

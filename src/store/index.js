@@ -8,6 +8,8 @@ import imgModule from './modules/img'
 import cartModule from './modules/cart'
 import addressModule from './modules/address'
 import orderModule from './modules/order'
+import orderHistoryModule from './modules/orderHistory'
+import shopModule from './modules/shop'
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -18,7 +20,9 @@ const store = new Vuex.Store({
     goodsModule,
     imgModule,
     cartModule,
-    orderModule
+    orderModule,
+    orderHistoryModule,
+    shopModule
   },
   getters,
   state: {

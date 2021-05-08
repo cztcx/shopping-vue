@@ -1,6 +1,17 @@
 import {userLogin, logout, getInfo, UserUpdate, retrieve} from '../../api/userApi'
+import {getShopByUserId} from '../../api/shopApi'
 import {resetRouter} from '../../router'
-import {setIsSeller, setUserName, getToken, clearToken, setToken, getUserName, setId, getId} from '../../utils/session'
+import {
+  setIsSeller,
+  setUserName,
+  getToken,
+  clearToken,
+  setToken,
+  getUserName,
+  setId,
+  getId,
+  setShopId
+} from '../../utils/session'
 
 const getDefaultState = () => {
   return {
@@ -55,9 +66,13 @@ const actions = {
           setUserName(data.nickname)
           setId(data.id)
           if (data.isSeller === '1') {
-            setIsSeller(true)
+            getShopByUserId(data.id).then(res => {
+              console.log(res)
+              setShopId(res.data.id)
+            })
+            setIsSeller('1')
           } else {
-            setIsSeller(false)
+            setIsSeller('0')
           }
         }
         resolve()

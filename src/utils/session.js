@@ -2,6 +2,7 @@ const token = 'token'
 const userName = 'userName'
 const isSeller = 'isSeller'
 const id = 'ID'
+const shopId = 'shopId'
 
 export function setToken (value) {
   sessionStorage.setItem(token, value)
@@ -25,6 +26,14 @@ export function setIsSeller (value) {
 
 export function getIsSeller () {
   return sessionStorage.getItem(isSeller)
+}
+
+export function setShopId (value) {
+  sessionStorage.setItem(shopId, value)
+}
+
+export function getShopId () {
+  return sessionStorage.getItem(shopId)
 }
 export function setId (value) {
   sessionStorage.setItem(id, value)

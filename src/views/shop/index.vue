@@ -80,7 +80,7 @@ export default {
       }
       if (key === '2-3') {
         router.push({
-          path: '/index/shop/offShelfGoods'
+          path: '/index/shop/OffShelfGoods'
         })
       }
       if (key === '5') {

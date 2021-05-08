@@ -9,12 +9,12 @@
         text-color="black"
         active-text-color="#ffd04b"
       >
-        <div class="logo">
-          欢迎：<span class="userName">{{ userName }}</span>&nbsp;
+        <span class="logo">
+          欢迎：<b class="userName" style="font-family:'楷体'">{{ userName }} </b>&nbsp;
           <el-link @click="logout">
             <li class="el-icon-switch-button" style="color: #0fc1ee">退出登录</li>
           </el-link>
-        </div>
+        </span>
         <div class="menu">
           <el-menu-item index="1" class="item">
             <span class="menu-span">首页{{ this.username }}</span>
@@ -35,12 +35,12 @@
             <span class="menu-span">网红</span>
           </el-menu-item>
         </div>
-        <div class="search">
+        <span class="search">
           <el-input v-model="input" placeholder="请输入内容" size="small"></el-input>
           <el-button type="danger" icon="el-icon-search" size="small">找它</el-button>
-        </div>
-        <div class="personal">
-          <el-menu-item index="7" class="personal-item">
+        </span>
+        <span class="personal">
+          <el-menu-item index="7" class="personal-item" v-show="showShop">
             <span class="menu-span"><i class="el-icon-s-home"></i>我的商铺</span>
           </el-menu-item>
           <el-menu-item index="8" class="personal-item">
@@ -49,16 +49,16 @@
           <el-menu-item index="9" class="personal-item">
             <span class="menu-span"><i class="el-icon-user"></i>个人中心</span>
           </el-menu-item>
-        </div>
+        </span>
       </el-menu>
     </div>
-    <router-view />
+    <router-view/>
   </el-container>
 </template>
 
 <script>
 import Store from '../views/shop'
-import {getUserName} from '../utils/session'
+import {getIsSeller, getUserName} from '../utils/session'
 import router from '../router'
 import {createNamespacedHelpers} from 'vuex'
 
@@ -74,11 +74,19 @@ export default {
       input: '',
       cartIcon1: 'el-icon-shopping-cart-2',
       cartIcon2: 'el-icon-shopping-cart-full',
-      username: this.$route.params.username
+      username: this.$route.params.username,
+      showShop: false
     }
   },
   computed: {
     userName: getUserName
+  },
+  created () {
+    if (getIsSeller() === '1') {
+      this.showShop = true
+    } else {
+      this.showShop = false
+    }
   },
   methods: {
     ...mapActions(['retrieve']),
@@ -90,8 +98,6 @@ export default {
         router.push({
           path: '/index/shop'
         })
-        this.showStore = true
-        this.showHome = false
       }
       if (key === '1') {
         router.push({
@@ -211,7 +217,6 @@ export default {
   float: left;
   width: 12.5%;
   height: 100px;
-  border: 1px solid #FFD04B;
   display: flex;
   align-items: center;
 }

@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-export function getOrderList (data, shopId) {
+export function getOrderHistoryList (data, shopId) {
   return request({
     url: `/v1/shops/${shopId}/order`,
     method: 'get',
@@ -14,16 +14,16 @@ export function add (data) {
     data
   })
 }
-export function getUserOrders (userId) {
+export function getUserHistoryOrders (userId) {
   return request({
-    url: `/v1/user/getOrders/${userId}`,
+    url: `/v1/user/getHistoryOrders/${userId}`,
     method: 'get'
   })
 }
 
-export function receiveOrder (orderId) {
+export function deleteHistoryOrder (orderHistoryId) {
   return request({
-    url: `/v1/user/receive/${orderId}`,
+    url: `/v1/user/deleteHisOrder/${orderHistoryId}`,
     method: 'delete'
   })
 }

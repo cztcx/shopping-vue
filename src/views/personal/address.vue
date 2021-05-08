@@ -73,13 +73,51 @@
     <el-dialog title="修改收货人" :visible.sync="updateFormVisible" style="text-align: center">
       <el-form :ref="updateForm" :rules="rules" :model="updateForm" label-width="80px">
         <el-form-item label="收货人姓名" prop="username" label-width="100px">
-          <el-input v-model="updateForm.username" class="input" size="small" style="width: 80%"></el-input>
+          <el-input v-model="updateForm.username" class="input" size="small"></el-input>
         </el-form-item>
-        <el-form-item label="收货人地址" prop="address" label-width="100px">
-          <el-input v-model="updateForm.address" class="input" size="small" style="width: 80%"></el-input>
+        <el-form-item label="收货人地址" label-width="100px">
+          <el-form-item prop="province" label="省" label-width="80px">
+            <el-select v-model="updateForm.province" placeholder="请选择省份（直辖市）" @change="renderUpdateCity">
+              <el-option
+                v-for="item in provinceListAll"
+                :key="item.name"
+                :value="item.name">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item prop="city" label="市" v-if="cityUpdateSelectAble" label-width="80px">
+            <el-select v-model="updateForm.city" placeholder="请选择城市" @change="renderUpdateArea">
+              <el-option
+                v-for="item in cityListAll"
+                :key="item.name"
+                :value="item.name">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item prop="area" label="区/县" v-if="areaUpdateSelectAble" label-width="80px">
+            <el-select v-model="updateForm.area" placeholder="请选择区/县" @change="renderUpdateDetailed">
+              <el-option
+                v-for="item in areaListAll"
+                :key="item.name"
+                :value="item.name">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item prop="street" label="街道" v-if="streetUpdateSelectAble" label-width="80px">
+            <el-select v-model="updateForm.street" placeholder="请选择街道">
+              <el-option
+                v-for="item in detailedListAll"
+                :key="item.name"
+                :value="item.name">
+              </el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item prop="detailed" label="详细信息" label-width="80px">
+            <el-input v-model="updateForm.detailed" class="input" size="small"></el-input>
+          </el-form-item>
         </el-form-item>
         <el-form-item label="收货人电话" prop="phone" label-width="100px">
-          <el-input v-model="updateForm.phone" class="input" size="small" style="width: 80%"></el-input>
+          <el-input v-model="updateForm.phone" class="input" size="small"></el-input>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -94,19 +132,11 @@
 import {createNamespacedHelpers} from 'vuex'
 import {getId} from '../../utils/session'
 
-const defaultAddress = {
-  province: '', // 所属省（直辖市)
-  city: '', // 所属市
-  area: '', // 所属区
-  street: '', // 所属街道
-  detailed: ''
-}
 const {mapState, mapActions} = createNamespacedHelpers('addressModule')
 export default {
   name: 'Address',
   data () {
     return {
-      address: Object.assign({}, defaultAddress),
       modal1: false,
       isEdit: false,
       provinceListAll: [], // 全国34个省份（包括直辖市）列表
@@ -116,6 +146,9 @@ export default {
       citySelectAble: false, // 城市是否可选
       areaSelectAble: false,
       streetSelectAble: false,
+      cityUpdateSelectAble: false, // 城市是否可选
+      areaUpdateSelectAble: false,
+      streetUpdateSelectAble: false,
       loading: false,
       updateFormVisible: false,
       dialogFormVisible: false,
@@ -136,12 +169,23 @@ export default {
         phone: '',
         userId: getId()
       },
-      updateForm: {
-        id: '',
+      realUpdateForm: {
         address: '',
         username: '',
         phone: '',
-        userId: getId()
+        userId: getId(),
+        id: ''
+      },
+      updateForm: {
+        province: '', // 所属省（直辖市)
+        city: '', // 所属市
+        area: '', // 所属区
+        street: '', // 所属街道
+        detailed: '',
+        username: '',
+        phone: '',
+        userId: getId(),
+        id: ''
       },
       rules: {
         province: [{required: true, message: '请输入所属省份（或者直辖市）', trigger: 'blur'}],
@@ -231,21 +275,45 @@ export default {
       })
     },
     show (id) {
+      this.provinceListAll = [] // 全国34个省份（包括直辖市）列表
+      this.cityListAll = []
+      this.areaListAll = []
+      var that = this
+      this.$http.get('https://restapi.amap.com/v3/config/district', {
+        params: {
+          key: '4c8541b4eeaee30f1ee2e9913768119b',
+          keywords: '中国',
+          subdistrict: 3,
+          extensions: 'base'
+        }
+      }).then((response) => {
+        that.provinceListAll = response.data.districts[0].districts
+        for (let i = 0; i < response.data.districts[0].districts.length; i++) {
+          for (let j = 0; j < response.data.districts[0].districts[i].districts.length; j++) {
+            that.cityListAll.push(response.data.districts[0].districts[i].districts[j])
+          }
+        }
+        for (let i = 0; i < that.cityListAll.length; i++) {
+          that.areaListAll.push(that.cityListAll[i].districts)
+        }
+      })
       this.retrieve(id).then(() => {
-        this.updateForm.address = this.address.address
-        this.updateForm.id = id
         this.updateForm.phone = this.address.phone
         this.updateForm.username = this.address.username
-        this.updateForm.userId = this.address.userId
         this.updateFormVisible = true
       }).catch(() => {
-        this.$message.error('由于内部原因，修改失败')
+        this.$message.error('由于内部原因，暂时无法修改')
       })
     },
     updateAddress (updateForm) {
       this.$refs[updateForm].validate((valid) => {
         if (valid) {
-          this.update(updateForm).then(() => {
+          this.realForm.address = updateForm.province + updateForm.city + updateForm.area + updateForm.street + updateForm.detailed
+          this.realForm.username = updateForm.username
+          this.realForm.phone = updateForm.phone
+          this.realForm.id = this.address.id
+          console.log(this.realForm)
+          this.update(this.realForm).then(() => {
             this.updateFormVisible = false
             this.$message({
               message: '修改成功',
@@ -317,7 +385,14 @@ export default {
         this.citySelectAble = true
       } else if (!this.form.province) {
         this.citySelectAble = false
-        this.address.city = ''
+      }
+    },
+    renderUpdateCity () {
+      if (this.updateForm.province.length > 0) {
+        this.cityListAll = this.provinceListAll.filter(item => item.name === this.updateForm.province)[0].districts
+        this.cityUpdateSelectAble = true
+      } else if (!this.updateForm.province) {
+        this.cityUpdateSelectAble = false
       }
     },
 
@@ -327,7 +402,16 @@ export default {
         this.areaSelectAble = true
       } else if (!this.form.city) {
         this.areaSelectAble = false
-        this.address.area = ''
+        this.form.area = ''
+      }
+    },
+    renderUpdateArea () {
+      if (this.updateForm.city.length > 0) {
+        this.areaListAll = this.cityListAll.filter(item => item.name === this.updateForm.city)[0].districts
+        this.areaUpdateSelectAble = true
+      } else if (!this.updateForm.city) {
+        this.areaUpdateSelectAble = false
+        this.updateForm.area = ''
       }
     },
     renderDetailed () {
@@ -346,6 +430,24 @@ export default {
       } else if (!this.form.city) {
         this.streetSelectAble = false
         this.form.street = ''
+      }
+    },
+    renderUpdateDetailed () {
+      if (this.updateForm.area.length > 0) {
+        this.$http.get('https://restapi.amap.com/v3/config/district', {
+          params: {
+            key: '4c8541b4eeaee30f1ee2e9913768119b',
+            keywords: this.updateForm.area,
+            subdistrict: 1,
+            extensions: 'base'
+          }
+        }).then((response) => {
+          this.detailedListAll = response.data.districts[0].districts
+        })
+        this.streetUpdateSelectAble = true
+      } else if (!this.updateForm.city) {
+        this.streetUpdateSelectAble = false
+        this.updateForm.street = ''
       }
     }
   }

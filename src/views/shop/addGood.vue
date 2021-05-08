@@ -34,7 +34,8 @@
           :key="index"
           :prop="'options.' + index + '.value'"
         >
-          <el-input v-model="item.flavor" class="input" size="mini" style="width: 70%"></el-input><el-button @click.prevent="removeFlavor(item)" size="mini">删除</el-button>
+          <el-input v-model="item.flavor" class="input" size="mini" style="width: 70%"></el-input>
+          <el-button @click.prevent="removeFlavor(item)" size="mini">删除</el-button>
           <br>
         </el-form-item>
         <el-button @click="addFlavor" size="mini">添加口味</el-button>
@@ -67,7 +68,7 @@
 
 <script>
 import {createNamespacedHelpers} from 'vuex'
-import {getToken} from '../../utils/session'
+import {getToken, getId} from '../../utils/session'
 import {deleteImg} from '../../api/imgApi'
 
 const {mapActions} = createNamespacedHelpers('goodsModule')
@@ -77,7 +78,7 @@ export default {
     return {
       myHeaders: {token: getToken()},
       GoodsForm: {
-        shopId: '1',
+        shopId: '',
         name: '',
         categoryId: '1',
         introduction: '',
@@ -91,8 +92,17 @@ export default {
       fileList: []
     }
   },
+  created () {
+    this.getShop()
+  },
   methods: {
     ...mapActions(['create']),
+    getShop () {
+      this.$store.dispatch('shopModule/getShopByUserId', getId()).then((reponse) => {
+        console.log(reponse)
+        this.GoodsForm.shopId = reponse.id
+      })
+    },
     onSubmit () {
       this.$confirm('该操作将修改信息, 是否继续?', '提示', {
         confirmButtonText: '确定',
